@@ -1,0 +1,6 @@
+You have just signed for {{ site.name }}.
+Please click below to activate your account.
+
+http://{{ site.domain }}{% url 'registration_activate' activation_key %}
+
+This link is valid for {{ expiration_days}}.
