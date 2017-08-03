@@ -20,6 +20,7 @@ urlpatterns = [
     # url(r'^$', 'store.views.index', name='index'),
     url(r'^store/', include('store.urls'), name='store'),
     url(r'^accounts/', include('registration.backends.default.urls')),
+    url('', include('social.apps.django_apps.urls', namespace='social')),
     url(r'^admin/', admin.site.urls),
 
 ]

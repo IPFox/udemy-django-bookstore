@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social.apps.django_app.default',
     'registration',
     'store'
 ]
@@ -81,6 +82,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -143,6 +146,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUT_LOGIN = True
 LOGIN_REDIRECT_URL = '/store/'
+
+# Social login options
+AUTHENTICATION_BACKENDS = (
+    'social.backend.facebook.Facebook0Auth2',
+    'django.contrib.auth.backends.ModelBackend'
+)
+SOCIAL_AUTH_FACEBOOK_KEY = get_secret("facebook", "SOCIAL_AUTH_FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = get_secret("facebook", "SOCIAL_AUTH_FACEBOOK_SECRET")
+
 
 # Email Settings
 
