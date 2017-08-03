@@ -9,6 +9,7 @@ The intention is to have the at least the following external services included i
 * Paypal integration
 
 Other functionality:
+* securing the secrets within settings.py
 * tastypie/swagger API setup
 * Bootstrap integration
 * JQuery / Ajax / MorrisJS
