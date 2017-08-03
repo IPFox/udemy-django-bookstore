@@ -1,12 +1,16 @@
-{ extends 'base.html' %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-<title> {% block title %} Welcome to Mystery books {% endblock}  </title>
-</head>
-<body>
-{% block content %}
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-2 loginbox">
+    <div class="panel panel-info">
+	    <div class="panel-heading">
+		     <div class="panel-title">
+			    Oh No!
+			 </div>
+			 <div style="padding-top:30px" class="panel-body">
+			    There was a problem activating your account. Please contact us at <a href="mailto:support@mysterybooks.com">support@mysterybooks.com</a>
+			 </div>
+		</div>
+	</div>
+</div>
 {% endblock %}
-</body>
-</html>
