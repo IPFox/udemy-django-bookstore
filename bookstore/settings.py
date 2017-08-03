@@ -16,7 +16,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 # JSON-based secrets module
-with open("secrets.json") as f:
+with open("bookstore/secrets.json") as f:
     secrets = json.loads(f.read())
 
 
