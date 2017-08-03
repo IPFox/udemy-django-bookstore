@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social.apps.django_app.default',
+    'social_django',
     'registration',
     'store'
 ]
@@ -82,8 +82,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social.apps.django_app.context_processors.backends',
-                'social.apps.django_app.context_processors.login_redirect',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -149,9 +149,12 @@ LOGIN_REDIRECT_URL = '/store/'
 
 # Social login options
 AUTHENTICATION_BACKENDS = (
-    'social.backend.facebook.Facebook0Auth2',
+    'social_core.backends.facebook.Facebook0Auth2',
+    'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend'
 )
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
 SOCIAL_AUTH_FACEBOOK_KEY = get_secret("facebook", "SOCIAL_AUTH_FACEBOOK_KEY")
 SOCIAL_AUTH_FACEBOOK_SECRET = get_secret("facebook", "SOCIAL_AUTH_FACEBOOK_SECRET")
 
