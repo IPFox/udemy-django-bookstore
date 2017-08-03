@@ -1,7 +1,6 @@
 # Own ignores
 *.sqlite3
-*.conf
-*.yml
+secrets.json
 
 #https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore
 # Byte-compiled / optimized / DLL files

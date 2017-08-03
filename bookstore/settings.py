@@ -11,6 +11,23 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import json
+from django.core.exceptions import ImproperlyConfigured
+
+
+# JSON-based secrets module
+with open("secrets.json") as f:
+    secrets = json.loads(f.read())
+
+
+def get_secret(group, setting, secrets=secrets):
+    """Get the secret variable or return explicit exception."""
+    try:
+        return secrets[group][setting]
+    except KeyError:
+        error_msg = "Set the {0} environment variable".format(setting)
+    raise ImproperlyConfigured(error_msg)
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -129,10 +146,10 @@ LOGIN_REDIRECT_URL = '/store/'
 
 # Email Settings
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'put your email address here'
-EMAIL_HOST_PASSWORD = 'put your email password here'
-EMAIL_PORT = 587
+EMAIL_BACKEND = get_secret("email", "EMAIL_BACKEND")
+EMAIL_HOST = get_secret("email", "EMAIL_HOST")
+EMAIL_HOST_USER = get_secret("email", "EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = get_secret("email", "EMAIL_HOST_PASSWORD")
+EMAIL_PORT = get_secret("email", "EMAIL_PORT")
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'put in an email address that you want to show as the id from the email came'
+DEFAULT_FROM_EMAIL = get_secret("email", "DEFAULT_FROM_EMAIL")
