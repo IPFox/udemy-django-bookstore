@@ -1,7 +1,7 @@
 # Own ignores
 *.sqlite3
 secrets.json
-
+static/CACHE
 #https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore
 # Byte-compiled / optimized / DLL files
 __pycache__/
