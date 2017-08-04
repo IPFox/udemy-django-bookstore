@@ -1,14 +1,15 @@
-{% load compress %}
 {% extends 'bootstrap3/bootstrap3.html' %}
+{% load compress %}
 {% load staticfiles %}
 (% load bootstrap3 %}
 (% bootstrap_styles theme='simplex' type='min.css' %}
 (% load bootstrap_themes %}
 
 {% block bootstrap3_extra_head %}
+	{% block meta %}{% endblock %}
      <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
 	 {% compress css %}
-	 <link href="{% static 'base/css/style.css %}" rel="stylesheet" type="text/css">
+	 <link href="{% static 'base/css/style.css' %}" rel="stylesheet" type="text/css">
 	 {% endcompress%}
 {% endblock %}
 
@@ -54,9 +55,11 @@
 	  <div class="parallax">
 	    <div class="row">
 	     {% block body %}
-		 <div class="col-md-8 col-md-offset-2 col-sm-12 maincontent">
-		   Welcome to our store!
-		 </div>
+
+			<div class="col-md-8 col-md-offset-2 col-sm-12 maincontent">
+		       Welcome to our store!
+		    </div>
+
 		 {% endblock %}
 		</div>
 	  </div>

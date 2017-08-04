@@ -25,7 +25,7 @@ def get_secret(group, setting, secrets=secrets):
     try:
         return secrets[group][setting]
     except KeyError:
-        error_msg = "Set the {0} environment variable".format(setting)
+        error_msg = "Set the group {0} environment variable {1}".format(setting)
     raise ImproperlyConfigured(error_msg)
 
 
@@ -56,10 +56,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'compressor',
     'social_django',
-    'registration',
     'bootstrap3',
     'bootstrap_themes',
-    'store'
+    'debug_toolbar',
+    'store',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'bookstore.urls'
@@ -143,13 +145,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 COMPRESS_ENABLED = True
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
+#Debug toolbar
+INTERNAL_IPS = '127.0.0.1'
+
 # User registration options
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUT_LOGIN = True
