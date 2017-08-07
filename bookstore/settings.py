@@ -152,7 +152,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
-#Debug toolbar
+# Debug toolbar
 INTERNAL_IPS = '127.0.0.1'
 
 # User registration options
@@ -162,7 +162,7 @@ LOGIN_REDIRECT_URL = '/store/'
 
 # Social login options
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.facebook.Facebook0Auth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend'
 )

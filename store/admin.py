@@ -11,11 +11,11 @@ class AuthorAdmin(admin.ModelAdmin):
 
 
 class BookOrderAdmin(admin.ModelAdmin):
-    list_display= ('book', 'cart','quantity')
+    list_display = ('book', 'cart', 'quantity')
 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display= ('user', 'active','order_date')
+    list_display = ('user', 'active', 'order_date')
 
 
 admin.site.register(Book, BookAdmin)
