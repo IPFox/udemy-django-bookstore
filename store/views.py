@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book, BookOrder, Cart, Review
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
@@ -13,16 +13,16 @@ def index(request):
 
 
 def store(request):
-    books = Book.objects.all()
+    book = Book.objects.all()
     context = {
-        'books': books,
+        'books': book,
     }
     return render(request, 'base.html', context)
 
 
 def book_details(request, book_id):
     context = {
-        'book': Book.objects.get(pk=book_id),
+        'book': get_object_or_404(Book, id=book_id),
     }
     return render(request, 'store/detail.html', context)
 
