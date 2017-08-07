@@ -181,3 +181,9 @@ EMAIL_HOST_PASSWORD = get_secret("email", "EMAIL_HOST_PASSWORD")
 EMAIL_PORT = get_secret("email", "EMAIL_PORT")
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = get_secret("email", "DEFAULT_FROM_EMAIL")
+
+# Paypal settings
+
+
+# Stripe settings
+STRIPE_API_KEY = get_secret("stripe", "API_KEY")

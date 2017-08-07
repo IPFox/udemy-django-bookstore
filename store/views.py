@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.http import JsonResponse
 import paypalrestsdk, stripe
+from django.conf import settings
 
 
 def index(request):
@@ -102,6 +103,7 @@ def checkout(request, processor):
 
 
 def checkout_paypal(request, cart, orders):
+    # FIXME: Paypal account pending, otherwise shouuld work.
     if request.user.is_authenticated():
         items = []
         total = 0
@@ -153,8 +155,9 @@ def checkout_paypal(request, cart, orders):
 
 
 def checkout_stripe(cart, orders, token):
-    # TODO: below secret needs to be read from the settings secret
-    stripe.api_key = "*put in your stripe api_key*"
+    # DONE: below secret needs to be read from the settings secret
+    # FIXME: Stripe is not working, maybe issue with the account
+    stripe.api_key = settings.STRIPE_API_KEY
     total = 0
     for order in orders:
         total += (order.book.price * order.quantity)
