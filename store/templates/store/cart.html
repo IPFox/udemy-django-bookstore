@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block body %}
 <div class="col-md-8 col-md-offset-2 col-sm-12 maincontent">
@@ -23,9 +24,53 @@
 		<div class="cart_total">
 			 <h4> Total: $<span class="cart_value">{{ total }}</span></h4>
 			 {% if cart %}
-			 <div><a href="{% url 'checkout' 'paypal' %}"><img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"></a></div>
+			 <div>
+                 <a href="{% url 'checkout' 'paypal' %}"><img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"></a></div>
+			    {% csrf_token %}
+                <a href="#">
+				    <img src="{% static '/base/img/stripe.png' %}" id="customButton" />
+					<script>
+					    var csrftoken = $.cookie('csrftoken');
+						function csrfSafeMethod(method) {
+						    //There http method do not require csrf protection
+							return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+						}
+						$.ajaxSetup({
+						    beforeSend: function(xhr, settings) {
+							    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+								    x@r.setRequestHeader("X-CSRFTOKEN", csrftoken);
+								}
+							}
+
+						});
+						var handler = StripeCheckout.configure({
+						    key: '*put in your key here*',
+							token: function(token) {
+							    $.post("{% url 'checkout' 'stripe' %}", {'stripeToken': token.id, 'csrfmiddlewaretoken': csrftoken}, function(data) {
+								    window.location.replace(data['redirect_url']):
+								});
+							}
+						});
+
+						$('#customButton').on('click', function(e) {
+						    //Open checkout with further options
+							handler.open({
+							    name: 'Mystery Books',
+								description: '{{ count }} book{{ count|pluralize }}',
+								currency: "USD",
+								amount: '{{ total|to_cents }}'
+							});
+							e.preventDefault();
+						});
+
+						//Close checkout on Page Navigation
+						$(window).on('popstate',function() {
+						    handler.close();
+						});
+					</script>
+				</a>
+			 </div>
 			 {% endif %}
 		</div>
 		</div>
-	</div>
 {% endblock %}
