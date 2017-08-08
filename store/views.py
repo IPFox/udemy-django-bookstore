@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.conf.urls import url
 from .models import Book, BookOrder, Cart, Review
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
@@ -6,7 +7,16 @@ from django.utils import timezone
 from django.http import JsonResponse
 import paypalrestsdk, stripe
 from django.conf import settings
+'''
+from rest_framework_swagger.views import get_swagger_view
 
+# enable Sagger UI for REST API
+
+schema_view = get_swagger_view(title='Django site  API')
+urlpatterns = [
+    url(r'^$', schema_view),
+]
+'''
 
 def index(request):
     return render(request, 'template.html')
@@ -103,7 +113,7 @@ def checkout(request, processor):
 
 
 def checkout_paypal(request, cart, orders):
-    # FIXME: Paypal account pending, otherwise shouuld work.
+    # FIXME: Paypal account pending, otherwise should work.
     if request.user.is_authenticated():
         items = []
         total = 0

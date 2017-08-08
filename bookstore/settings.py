@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_swagger',
     'compressor',
     'social_django',
     'bootstrap3',
@@ -187,3 +189,31 @@ DEFAULT_FROM_EMAIL = get_secret("email", "DEFAULT_FROM_EMAIL")
 
 # Stripe settings
 STRIPE_API_KEY = get_secret("stripe", "API_KEY")
+
+
+# Django REST framework (API)
+#  REST_FRAMEWORK_VERSION = VERSION[0:3]  # Use major.minor as API version
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+'''REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'utilities.api.TokenAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'utilities.api.OptionalLimitOffsetPagination',
+    'DEFAULT_PERMISSION_CLASSES': (
+        'utilities.api.TokenPermissions',
+    ),
+    'DEFAULT_VERSION': REST_FRAMEWORK_VERSION,
+    'ALLOWED_VERSIONS': [REST_FRAMEWORK_VERSION],
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
+    'PAGE_SIZE': PAGINATE_COUNT,
+} '''
