@@ -37,7 +37,7 @@ cp bookstore/secrets.json.template $CONFIG
 sed -i -e "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['*'\]/g" $CONFIG
 
 # Run NetBox tests
-./bookstore/manage.py test store/
+./manage.py test store/
 RC=$?
 if [[ $RC != 0 ]]; then
 	echo -e "\n$(info) one or more tests failed, failing build."
