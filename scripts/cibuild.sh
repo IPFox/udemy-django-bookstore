@@ -37,7 +37,7 @@ cp bookstore/secrets.json.template $CONFIG
 sed -i -e "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['*'\]/g" $CONFIG
 
 # Run migration to handle the DB errors at travisCI
-python manage.py migrate
+python manage.py migrate store
 
 # Run Bookstore tests
 python manage.py test store
