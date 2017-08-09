@@ -7,16 +7,7 @@ from django.utils import timezone
 from django.http import JsonResponse
 import paypalrestsdk, stripe
 from django.conf import settings
-'''
-from rest_framework_swagger.views import get_swagger_view
 
-# enable Sagger UI for REST API
-
-schema_view = get_swagger_view(title='Django site  API')
-urlpatterns = [
-    url(r'^$', schema_view),
-]
-'''
 
 def index(request):
     return render(request, 'template.html')
