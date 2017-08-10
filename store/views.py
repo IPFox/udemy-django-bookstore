@@ -5,8 +5,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.http import JsonResponse
-import paypalrestsdk, stripe
+import paypalrestsdk
+import stripe
 from django.conf import settings
+from .forms import ReviewForm
 
 
 def index(request):
@@ -22,9 +24,27 @@ def store(request):
 
 
 def book_details(request, book_id):
+    book = Book.objects.get(pk=book_id)
     context = {
-        'book': get_object_or_404(Book, id=book_id),
+        'book': book,
+        # 'book': get_object_or_404(Book, id=book_id),
     }
+
+    if request.user.is_authenticated():
+        if request.method == "POST":
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                new_review = Review.objects.create(
+                    user=request.user,
+                    book=context['book'],
+                    text=form.cleaned_data.get('text')
+                )
+                new_review.save()
+        else:
+            if Review.objects.filter(user=request.user, book=context['book']).count() == 0:
+                form = ReviewForm()
+                context['form'] = form
+        context['reviews'] = book.review_set.all()
     return render(request, 'store/detail.html', context)
 
 
@@ -143,7 +163,7 @@ def checkout_paypal(request, cart, orders):
                 }]})
         if payment.create():
             cart_instance = cart.get()
-            cart_instance.payment_id= payment.id
+            cart_instance.payment_id = payment.id
             cart_instance.save()
             for link in payment.links:
                 if link.method == "REDIRECT":
@@ -165,12 +185,12 @@ def checkout_stripe(cart, orders, token):
     status = True
     try:
         charge = stripe.Charge.create(
-            amount=int(total*100),
+            amount=int(total * 100),
             currency="USD",
             source=token,
             metadata={
                 'order_id': cart.get().id}
-            )
+        )
         cart_instance = cart.get()
         cart_instance.payment_id = charge.id
         cart_instance.save()
@@ -190,7 +210,7 @@ def process_order(request, processor):
     if request.user.is_authenticated():
         if processor == "paypal":
             payment_id = request.GET.get('paymentId')
-            cart= Cart.objects.filter(payment_id=payment_id)
+            cart = Cart.objects.filter(payment_id=payment_id)
             orders = BookOrder.objects.filter(cart=cart)
             total = 0
             for order in orders:
@@ -235,5 +255,3 @@ def complete_order(request, processor):
             return render(request, 'store/order_complete.html', context)
     else:
         return redirect('index')
-
-

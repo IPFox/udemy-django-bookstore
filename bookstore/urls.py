@@ -19,6 +19,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 from rest_framework_swagger.views import get_swagger_view
+from django.conf.urls.static import static
 
 # enable Sagger UI for REST API
 
@@ -45,7 +46,6 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
 
-
 urlpatterns = [
     # url(r'^$', 'store.views.index', name='index'),
     url(r'^store/', include('store.urls'), name='store'),
@@ -54,8 +54,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^swag/$', schema_view),
     url(r'^admin/', admin.site.urls),
-
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 if settings.DEBUG:

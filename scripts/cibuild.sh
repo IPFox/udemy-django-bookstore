@@ -24,7 +24,7 @@ fi
 # Check all python source files for PEP 8 compliance, but explicitly
 # ignore:
 #  - E501: line greater than 80 characters in length
-# pep8 --ignore=E501 netbox/
+pep8 --ignore=E501 store
 RC=$?
 if [[ $RC != 0 ]]; then
 	echo -e "\n$(info) one or more PEP 8 errors detected, failing build."
