@@ -12,6 +12,7 @@ class Author(models.Model):
     last_name = models.CharField(max_length=100)
 
     def __str__(self):
+        # in python 2.x this will be __unicode__ instead of __str__
         return "%s, %s" % (self.last_name, self.first_name)
 
 
