@@ -26,7 +26,7 @@ class Book(models.Model):
 
 
 class Review(models.Model):
-    Book = models.ForeignKey(Book)
+    book = models.ForeignKey(Book)
     user = models.ForeignKey(User)
     publish_date = models.DateField(default=timezone.now)
     text = models.TextField()

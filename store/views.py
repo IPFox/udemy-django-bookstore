@@ -24,8 +24,9 @@ def store(request):
 
 
 def book_details(request, book_id):
+    book = Book.objects.get(pk=book_id)
     context = {
-        'book': Book.objects.get(pk=book_id),
+        'book': book,
         # 'book': get_object_or_404(Book, id=book_id),
     }
 
@@ -40,10 +41,10 @@ def book_details(request, book_id):
                 )
                 new_review.save()
         else:
-            if Review.objects.filter(user=request.user, Book=context['book']).count() == 0:
+            if Review.objects.filter(user=request.user, book=context['book']).count() == 0:
                 form = ReviewForm()
                 context['form'] = form
-        context['reviews'] = Book.review_set.all()
+        context['reviews'] = book.review_set.all()
     return render(request, 'store/detail.html', context)
 
 
