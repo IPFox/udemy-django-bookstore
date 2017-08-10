@@ -5,7 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.http import JsonResponse
-import paypalrestsdk, stripe
+import paypalrestsdk
+import stripe
 from django.conf import settings
 
 
@@ -143,7 +144,7 @@ def checkout_paypal(request, cart, orders):
                 }]})
         if payment.create():
             cart_instance = cart.get()
-            cart_instance.payment_id= payment.id
+            cart_instance.payment_id = payment.id
             cart_instance.save()
             for link in payment.links:
                 if link.method == "REDIRECT":
@@ -165,12 +166,12 @@ def checkout_stripe(cart, orders, token):
     status = True
     try:
         charge = stripe.Charge.create(
-            amount=int(total*100),
+            amount=int(total * 100),
             currency="USD",
             source=token,
             metadata={
                 'order_id': cart.get().id}
-            )
+        )
         cart_instance = cart.get()
         cart_instance.payment_id = charge.id
         cart_instance.save()
@@ -190,7 +191,7 @@ def process_order(request, processor):
     if request.user.is_authenticated():
         if processor == "paypal":
             payment_id = request.GET.get('paymentId')
-            cart= Cart.objects.filter(payment_id=payment_id)
+            cart = Cart.objects.filter(payment_id=payment_id)
             orders = BookOrder.objects.filter(cart=cart)
             total = 0
             for order in orders:
@@ -235,5 +236,3 @@ def complete_order(request, processor):
             return render(request, 'store/order_complete.html', context)
     else:
         return redirect('index')
-
-

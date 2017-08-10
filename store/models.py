@@ -3,6 +3,10 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 
+def cover_upload_path(instance, filename):
+    return '/'.join(['books', str(instance.id), filename])
+
+
 class Author(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -18,6 +22,7 @@ class Book(models.Model):
     publish_date = models.DateField(default=timezone.now)
     price = models.DecimalField(decimal_places=2, max_digits=8)
     stock = models.IntegerField(default=0)
+    cover_image = models.ImageField(upload_to=cover_upload_path, default='books/empty_cover.jpg')
 
 
 class Review(models.Model):
@@ -44,9 +49,9 @@ class Cart(models.Model):
 
         except BookOrder.DoesNotExist:
             new_order = BookOrder.objects.create(
-            book=book,
-            cart=self,
-            quantity=1
+                book=book,
+                cart=self,
+                quantity=1
             )
             new_order.save()
 
