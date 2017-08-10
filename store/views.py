@@ -24,10 +24,10 @@ def store(request):
 
 
 def book_details(request, book_id):
-    book = Book.objects.get(pk=book_id)
+    # book = Book.objects.get(pk=book_id)
+    book = get_object_or_404(Book, id=book_id)
     context = {
         'book': book,
-        # 'book': get_object_or_404(Book, id=book_id),
     }
 
     if request.user.is_authenticated():
